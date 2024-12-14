@@ -1,8 +1,12 @@
-﻿ <!-- Sidebar menu-->
+﻿<!-- Sidebar menu-->
+@{
+    var mailhash = Utils.Crypto.BuildHash(Utils.Crypto.AlgoSHA256, (await UserManager.GetUserAsync(User))?.Email ?? string.Empty, System.Text.Encoding.Default);
+    var gravatarUrl = string.Format("https://gravatar.com/avatar/{0}?s={1}&d={2}", mailhash, 200, "identicon");
+}
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="user-info">
-        <img class="user-avatar" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Image" />
+        <img class="user-avatar" src="@gravatarUrl" alt="User Image" />
         <div>
             <p class="user-name">@UserManager.GetUserName(User)</p>
             <p class="user-email">@((await UserManager.GetUserAsync(User))?.Email)</p>
@@ -16,7 +20,7 @@
         <li class="nav-item">
             <a class="nav-link" asp-area="" asp-page="/Manage/Medias/Index"><i class="nav-icon bi bi-file-earmark-music"></i>Medien</a>
         </li>
-
+        @*
         <li class="treeview">
             <a class="nav-link" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-laptop"></i><span class="app-menu__label">UI Elements</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
             <ul class="treeview-menu">
@@ -53,5 +57,6 @@
             </ul>
         </li>
         <li><a class="app-menu__item" href="docs.html"><i class="app-menu__icon bi bi-code-square"></i><span class="app-menu__label">Docs</span></a></li>
+*@
     </ul>
 </aside>
