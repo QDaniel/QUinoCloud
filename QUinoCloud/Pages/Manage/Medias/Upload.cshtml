@@ -1,0 +1,19 @@
+﻿@page
+@model QUinoCloud.Pages.Manage.Medias.UploadModel
+
+<script src="https://unpkg.com/dropzone@5/dist/dropzone.js"></script>
+<link href="https://unpkg.com/dropzone@5/dist/dropzone.css" rel="stylesheet" type="text/css" />
+<script>
+    // Note that the name "myDropzone" is the camelized
+    // id of the form.
+    
+    Dropzone.options.dropzoneForm = {
+        autoProcessQueue: true,
+        paramName: "Files",
+        maxFilesize: @(Model.MaxFileSize),
+        acceptedFiles:".mp3,.flac,.ogg"
+    };
+</script>
+
+<form method="post" action="?" enctype="multipart/form-data" class="dropzone dz-clickable form-horizontal form-bordered" id="dropzoneForm">
+</form>

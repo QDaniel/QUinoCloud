@@ -1,0 +1,69 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Medien";
+}
+
+<h1>Medien</h1>
+
+<p>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="0">Create New</a>
+    <a class="btn btn-primary" asp-page="./Upload" asp-route-id="0">Mass Upload</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Album)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].TrackNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Duration)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Entities)
+        {
+            <tr>
+                <td>
+                    <img class="img-thumbnail img-thumb-64" src="@item.GetImageUri(HttpContext)" title="@item.Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Album)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrackNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td>
+                    <a href="@item.BuildUri(HttpContext)" title="@item.Url"><i class="bi @(item.Url.Contains("://")? "bi-globe":"bi-cloud-arrow-down")"></i></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

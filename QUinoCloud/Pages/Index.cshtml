@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@inject AppDbContext dbContext
+@{
+    ViewData["Title"] = "Home";
+
+    
+    DirectoryInfo dirInfo = new DirectoryInfo(dbContext.MyMediaDir(HttpContext));
+    long dirSize = await Task.Run(() => dirInfo.EnumerateFiles("*", SearchOption.AllDirectories).Sum(file => file.Length));
+}
+
+<div class="row">
+    <div class="col-md-6 col-lg-4">
+        <div class="widget-small info coloured-icon">
+            <i class="icon bi bi-heart fs-1"></i>
+            <div class="info">
+                <h4>Tags</h4>
+                <p><b>@dbContext.MyCards(HttpContext).Count()</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="widget-small warning coloured-icon">
+            <i class="icon bi bi-folder2 fs-1"></i>
+            <div class="info">
+                <h4>Medien</h4>
+                <p><b>@dbContext.MyMedias(HttpContext).Count()</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="widget-small danger coloured-icon">
+            <i class="icon bi bi-star fs-1"></i>
+            <div class="info">
+                <h4>Space</h4>
+                <p><b>@Utils.Format.HumanFileSize(dirSize)</b></p>
+            </div>
+        </div>
+    </div>
+</div>
