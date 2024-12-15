@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using QUinoCloud.Data;
 using QUinoCloud.Utils;
-using System.Xml.Linq;
 
 namespace QUinoCloud.Pages.Manage.Medias
 {

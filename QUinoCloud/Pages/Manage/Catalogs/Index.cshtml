@@ -2,10 +2,15 @@
 @model IndexModel
 
 @{
-    ViewData["Title"] = "Uinos";
+    ViewData["Title"] = "Alben";
 }
 <h1>@ViewData["Title"]</h1>
 
+
+<p>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="0">Create New</a>
+    <a class="btn btn-primary" asp-page="./Upload" asp-route-id="0">Mass Upload</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -14,12 +19,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Entities[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Entities[0].MAC)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Entities[0].LastSeen)
             </th>
             <th></th>
         </tr>
@@ -33,13 +32,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.MAC)
-                </td>
-                <td>                  
-                    @Html.DisplayFor(modelItem => item.LastSeen)
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a> &nbsp;

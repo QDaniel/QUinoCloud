@@ -8,14 +8,14 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Tag</h4>
+    <h4>Album Info</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Entity.SerialNr)
+            @Html.DisplayNameFor(model => model.Entity.Image)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Entity.SerialNr)
+            <img src="@Model.Entity.GetImageUri(HttpContext)" class="img-thumbnail" />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Entity.Title)
@@ -24,28 +24,20 @@
             @Html.DisplayFor(model => model.Entity.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Entity.Image)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Entity.Image)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Entity.Owner)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Entity.Owner.UserName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Entity.Catalog)
+            @Html.DisplayNameFor(model => model.Entity.Medias)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Entity.Catalog.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Entity.Command)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Entity.Command.Command)
+            @if (Model.Entity?.Medias?.Any() ?? false)
+                @foreach (var mrel in Model.Entity.Medias)
+                {
+                    <div>@mrel.Position - @mrel.Media?.DisplayTitle()</div>
+                }
         </dd>
     </dl>
 </div>

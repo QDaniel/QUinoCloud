@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using QUinoCloud.Data;
 
-namespace QUinoCloud.Pages.Manage.Tags
+namespace QUinoCloud.Pages.Manage.Catalogs
 {
     public class DetailsModel : PageModel
     {
@@ -14,16 +14,14 @@ namespace QUinoCloud.Pages.Manage.Tags
             _context = context;
         }
 
-        public RfidTag Entity { get; set; } = default!;
+        public MediaCatalogInfo Entity { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id < 1) return NotFound();
 
-            var entity = await _context.MyCards(HttpContext)
+            var entity = await _context.MyMediaCatalogs(HttpContext)
                 .Include(o => o.Owner)
-                .Include(o => o.Catalog)
-                .Include(o => o.Command)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (entity is null) return NotFound();

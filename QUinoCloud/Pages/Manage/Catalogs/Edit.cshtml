@@ -2,7 +2,7 @@
 @model EditModel
 
 @{
-    ViewData["Title"] = "Media - " + (Model.Entity?.Id > 0 ? "Edit" : "Add");
+    ViewData["Title"] = "Album - " + (Model.Entity?.Id > 0 ? "Edit" : "Add");
 }
 <h1>@ViewData["Title"]</h1>
 <hr />
@@ -11,16 +11,6 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Entity.Id" />
-            <div class="form-group">
-                <label asp-for="Entity.Album" class="control-label"></label>
-                <input asp-for="Entity.Album" class="form-control" />
-                <span asp-validation-for="Entity.Album" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Entity.TrackNr" class="control-label"></label>
-                <input asp-for="Entity.TrackNr" class="form-control" />
-                <span asp-validation-for="Entity.TrackNr" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 
                 <label asp-for="Entity.Title" class="control-label"></label>
@@ -32,13 +22,6 @@
                 <label asp-for="Entity.Image" class="control-label"></label>
                 <input asp-for="Entity.Image" class="form-control" />
                 <span asp-validation-for="Entity.Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-
-                <label asp-for="Entity.Url" class="control-label"></label>
-                <input asp-for="Entity.Url" class="form-control" />
-                <span asp-validation-for="Entity.Url" class="text-danger"></span>
             </div>
             <div class="form-group pt-3">
                 <input type="submit" value="Save" class="btn btn-primary" />

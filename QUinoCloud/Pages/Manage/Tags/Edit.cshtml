@@ -3,14 +3,12 @@
 
 @{
 
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Tags - " + (Model.Entity?.Id > 0 ? "Edit" : "Add");
     var tagmode = Model.Entity.Mode;
 
 }
 
-<h1>Edit</h1>
-
-<h4>RfidCard</h4>
+<h1>@ViewData["Title"]</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">

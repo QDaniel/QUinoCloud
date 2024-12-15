@@ -4,8 +4,7 @@
 @{
     ViewData["Title"] = "Medien";
 }
-
-<h1>Medien</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a class="btn btn-primary" asp-page="./Edit" asp-route-id="0">Create New</a>
@@ -59,9 +58,9 @@
                     @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a> &nbsp;
+                    <a asp-page="./Details" asp-route-id="@item.Id" title="Details"><i class="bi bi-receipt fs-5"></i></a> &nbsp;
+                    <a asp-page="./Delete" asp-route-id="@item.Id" title="Delete"><i class="bi bi-trash fs-5"></i></a>
                 </td>
             </tr>
         }
