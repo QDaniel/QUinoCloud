@@ -13,6 +13,7 @@ namespace QUinoCloud.Controllers
         [AllowAnonymous]
         [Route("{mac}")]
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DeviceUpdateAsync(string mac, [FromBody] string data)
         {
             mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
