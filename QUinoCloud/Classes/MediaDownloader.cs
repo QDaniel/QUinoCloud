@@ -1,7 +1,5 @@
 ﻿using Microsoft.Net.Http.Headers;
 using QUinoCloud.Utils.Extensions;
-using System;
-
 namespace QUinoCloud.Classes
 {
     public class MediaDownloader

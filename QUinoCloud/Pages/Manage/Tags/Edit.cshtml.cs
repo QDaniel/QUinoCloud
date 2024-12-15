@@ -20,9 +20,9 @@ namespace QUinoCloud.Pages.Manage.Tags
 
             Entity = entity;
 
-            ViewData["CommandId"] = new SelectList(context.MyCommands(HttpContext), "Id", "Command");
-            ViewData["CatalogId"] = new SelectList(context.MyMediaCatalogs(HttpContext), "Id", "Title");
-            ViewData["MediaId"] = new SelectList(context.MyMedias(HttpContext), "Id", "Title");
+            ViewData["CommandId"] = new SelectList(context.MyCommands(HttpContext, true), "Id", "Command");
+            ViewData["CatalogId"] = new SelectList(context.MyMediaCatalogs(HttpContext, true), "Id", "Title");
+            ViewData["MediaId"] = new SelectList(context.MyMedias(HttpContext, true), "Id", "Title");
             return Page();
         }
 

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using NuGet.LibraryModel;
 using QUinoCloud.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default"))
 );
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = options.User.RequireUniqueEmail = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -23,6 +22,7 @@ builder.Services.AddHttpClient<MediaDownloader>();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 //.AddGoogle(googleOptions =>
 //{
 //    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];

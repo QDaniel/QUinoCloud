@@ -10,6 +10,7 @@ using System.Threading;
 
 public class AppDbContext : IdentityDbContext<IdentityUser>
 {
+    public static string PublicUserID { get; set; }
     public string CurrentUserID { get; set; }
     public DbSet<MediaCatalogInfo> MediaCatalogs { get; set; }
     public DbSet<MediaInfo> MediaInfos { get; set; }
@@ -44,21 +45,29 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
         }
     }
 
-    public IQueryable<T> My<T>(HttpContext ctx, IQueryable<T> dbset) where T : IOwnable
+    internal bool AllowEdit(object obj)
+    {
+        if (obj is IOwnable oobj)
+            return oobj.OwnerId == CurrentUserID;
+        return true;
+    }
+
+    public IQueryable<T> My<T>(HttpContext ctx, IQueryable<T> dbset, bool showPublic) where T : IOwnable
     {
         Init(ctx);
         if (string.IsNullOrWhiteSpace(CurrentUserID)) throw new InvalidOperationException("not logged in");
-        return dbset.Where(o => o.OwnerId == CurrentUserID);
+        
+        return showPublic ? dbset.Where(o => o.OwnerId == CurrentUserID || o.OwnerId == PublicUserID) : dbset.Where(o => o.OwnerId == CurrentUserID);
     }
-    public IQueryable<MediaCatalogInfo> MyMediaCatalogs(HttpContext ctx) => My(ctx, MediaCatalogs);
+    public IQueryable<MediaCatalogInfo> MyMediaCatalogs(HttpContext ctx, bool showPublic = false) => My(ctx, MediaCatalogs, showPublic);
 
-    public IQueryable<MediaInfo> MyMedias(HttpContext ctx = null) => My(ctx, MediaInfos);
+    public IQueryable<MediaInfo> MyMedias(HttpContext ctx = null, bool showPublic = false) => My(ctx, MediaInfos, showPublic);
 
-    public IQueryable<RfidTag> MyCards(HttpContext ctx = null) => My(ctx, RfidCards);
+    public IQueryable<RfidTag> MyCards(HttpContext ctx = null, bool showPublic = false) => My(ctx, RfidCards, showPublic);
     
-    public IQueryable<UinoDevice> MyUinos(HttpContext ctx = null) => My(ctx, Devices);
+    public IQueryable<UinoDevice> MyUinos(HttpContext ctx = null, bool showPublic = false) => My(ctx, Devices, showPublic);
 
-    public IQueryable<CommandInfo> MyCommands(HttpContext ctx = null) => My(ctx, CommandInfos);
+    public IQueryable<CommandInfo> MyCommands(HttpContext ctx = null, bool showPublic = false) => My(ctx, CommandInfos, showPublic);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
