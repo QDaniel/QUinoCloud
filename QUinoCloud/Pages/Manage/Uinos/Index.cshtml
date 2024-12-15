@@ -1,0 +1,58 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Uinos";
+
+
+}
+
+<h1>Tags</h1>
+
+<p>
+    <a asp-page="./Edit" asp-route-id="0">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].MAC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].LastSeen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Entities)
+        {
+            <tr>
+                <td>
+                    <img class="img-thumbnail img-thumb-64" src="@item.GetImageUri(HttpContext)" title="@item.Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MAC)
+                </td>
+                <td>                  
+                    @Html.DisplayFor(modelItem => item.LastSeen)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

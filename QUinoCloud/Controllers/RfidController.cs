@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
 using System.Net;
 using System.Text;
 
@@ -24,6 +23,19 @@ namespace QUinoCloud.Controllers
 
             if (tagInfo == null) return TagNotFound();
 
+            var mac = Request.Headers["X-Ident"].ToString();
+            mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
+            if (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12)
+            {
+                var uino = await context.Devices.FirstOrDefaultAsync(o => o.MAC == mac);
+                if (uino == null)
+                {
+                    uino = new UinoDevice() { MAC = mac, OwnerId = tagInfo.OwnerId };
+                    context.Devices.Add(uino);
+                }
+                uino.LastSeen = DateTimeOffset.Now;
+                await context.SaveChangesAsync();
+            }
             var reqetag = "\"" + tagInfo.EditStamp + "\"";
             HttpContext.Response.Headers.ETag = reqetag;
 

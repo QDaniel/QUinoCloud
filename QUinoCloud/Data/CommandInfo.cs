@@ -22,7 +22,7 @@ namespace QUinoCloud.Data
     }
     public interface IOwnable
     {
-        string OwnerId { get; set; }
+        string? OwnerId { get; set; }
         IdentityUser? Owner { get; set; }
     }
     public class CommandInfo: IRfidCmd

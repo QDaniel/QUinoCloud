@@ -16,6 +16,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     public DbSet<MediaInfoRel> MediaInfoRels { get; set; }
     public DbSet<RfidTag> RfidCards { get; set; }
     public DbSet<CommandInfo> CommandInfos { get; set; }
+    public DbSet<UinoDevice> Devices { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -53,6 +54,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     public IQueryable<MediaInfo> MyMedias(HttpContext ctx = null) => My(ctx, MediaInfos);
 
     public IQueryable<RfidTag> MyCards(HttpContext ctx = null) => My(ctx, RfidCards);
+    
+    public IQueryable<UinoDevice> MyUinos(HttpContext ctx = null) => My(ctx, Devices);
 
     public IQueryable<CommandInfo> MyCommands(HttpContext ctx = null) => My(ctx, CommandInfos);
 
