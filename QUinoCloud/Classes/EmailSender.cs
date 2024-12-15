@@ -29,6 +29,8 @@ namespace QUinoCloud.Classes
     }
     public class EmailSettings
     {
+        public const string Section = "Mail";
+
         public string? MailServer { get; set; }
         public int MailPort { get; set; }
         public bool UseSSL { get; set; }

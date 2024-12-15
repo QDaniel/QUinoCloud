@@ -13,6 +13,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(EmailSettings.Section));
+
 //    
 //    .AddEntityFrameworkStores<AppDbContext>();
 //builder.Services.AddIdentityCore<AppDbContext>();
