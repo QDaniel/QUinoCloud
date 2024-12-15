@@ -23,8 +23,8 @@ namespace QUinoCloud.Controllers
                 FileName = file,
                 Inline = true
             };
-            Response.Headers.Add("Content-Disposition", cd.ToString());
-            Response.Headers.Add("X-Content-Type-Options", "nosniff");
+            Response.Headers["Content-Disposition"] = cd.ToString();
+            Response.Headers["X-Content-Type-Options"] = "nosniff";
 
             return File(System.IO.File.OpenRead(path), Utils.Mimetype.GetMimeTypeFromExtension(path) ?? "application/octet-stream", true);
         }

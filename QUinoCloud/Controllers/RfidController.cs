@@ -65,7 +65,7 @@ namespace QUinoCloud.Controllers
                     incomplete = incomplete | tagInfo.Media!.Duration != null;
 
                     //list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
-                    list.Add(item.BuildUri(HttpContext).ToString());
+                    list.Add(item!.BuildUri(HttpContext).ToString());
                 }
             }
             list.Insert(1, incomplete ? "#INCOMPLETE" : "#OK");
@@ -100,6 +100,7 @@ namespace QUinoCloud.Controllers
             {
                 foreach (var item in tagInfo.Catalog.Medias.OrderBy(o => o.Position).Select(o => o.Media))
                 {
+                    if (item == null) continue;
                     list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
                     list.Add(item.BuildUri(HttpContext).ToString());
                 }

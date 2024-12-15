@@ -94,7 +94,7 @@ namespace QUinoCloud.Pages.Manage.Medias
         public FormFileAbstraction(IFormFile form)
         {
             Name = form.FileName;
-            ReadStream = form.OpenReadStream();
+            ReadStream = WriteStream = form.OpenReadStream();
         }
         public string Name { get; private set; }
 
@@ -109,10 +109,10 @@ namespace QUinoCloud.Pages.Manage.Medias
     }
     public class StreamFileAbstraction : TagLib.File.IFileAbstraction
     {
-        public StreamFileAbstraction(string filename, Stream data )
+        public StreamFileAbstraction(string filename, Stream data)
         {
             Name = filename;
-            ReadStream = data;
+            ReadStream = WriteStream = data;
         }
         public string Name { get; private set; }
 
