@@ -8,9 +8,9 @@ namespace QUinoCloud.Utils
     {
 
         #region Static HashAlgos
-        public static HashAlgorithm AlgoMD5 => new MD5CryptoServiceProvider();
-        public static HashAlgorithm AlgoSHA1 => new SHA1CryptoServiceProvider();
-        public static HashAlgorithm AlgoSHA256 => new SHA256CryptoServiceProvider();
+        public static HashAlgorithm AlgoMD5 => MD5.Create();
+        public static HashAlgorithm AlgoSHA1 => SHA1.Create();
+        public static HashAlgorithm AlgoSHA256 => SHA256.Create();
 
         #endregion
 

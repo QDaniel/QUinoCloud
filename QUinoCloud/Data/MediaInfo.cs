@@ -11,7 +11,7 @@ namespace QUinoCloud.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string? Title { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
         public string? Album { get; set; } = string.Empty;
         public int TrackNr { get; set; } = 0;
         public string? Image { get; set; } = string.Empty;

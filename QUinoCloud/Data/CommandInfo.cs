@@ -38,7 +38,7 @@ namespace QUinoCloud.Data
         [Required]
         public string Command { get; set; } = string.Empty;
 
-        public string OwnerId { get; set; } = string.Empty;
+        public string? OwnerId { get; set; } = string.Empty;
         public virtual IdentityUser? Owner { get; set; }
 
     }

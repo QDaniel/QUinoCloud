@@ -14,7 +14,7 @@ namespace QUinoCloud.Data
         public string Title { get; set; } = string.Empty;
         public string? Image { get; set; } = string.Empty;
 
-        public string OwnerId { get; set; } = string.Empty;
+        public string? OwnerId { get; set; } = string.Empty;
         public virtual IdentityUser? Owner { get; set; }
 
         [MinLength(1)]

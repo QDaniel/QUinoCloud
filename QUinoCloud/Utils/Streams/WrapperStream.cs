@@ -21,23 +21,23 @@
 
         public override long Length
         {
-            get { return _stream.Length; }
+            get { return _stream?.Length ?? throw new ObjectDisposedException(nameof(_stream)); }
         }
 
         public override long Position
         {
-            get { return _stream.Position; }
-            set { _stream.Position = value; }
+            get { return _stream?.Position ?? throw new ObjectDisposedException(nameof(_stream)); }
+            set { if (_stream != null) _stream.Position = value; }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return _stream.Read(buffer, offset, count);
+            return _stream?.Read(buffer, offset, count) ?? 0;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            return _stream.Seek(offset, origin);
+            return _stream?.Seek(offset, origin) ?? Position;
         }
 
         public override void SetLength(long value)

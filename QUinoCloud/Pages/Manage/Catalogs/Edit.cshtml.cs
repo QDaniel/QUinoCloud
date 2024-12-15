@@ -6,7 +6,7 @@ using QUinoCloud.Data;
 
 namespace QUinoCloud.Pages.Manage.Catalogs
 {
-    public class EditModel(AppDbContext context, MediaDownloader hc) : PageModel
+    public class EditModel(AppDbContext context) : PageModel
     {
         public string[] AllowedFileExt = [".mp3", ".flac", ".ogg"];
 
