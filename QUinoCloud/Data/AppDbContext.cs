@@ -25,6 +25,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
 
     private void AppDbContext_SavingChanges(object sender, SavingChangesEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(CurrentUserID)) return;
         foreach (var entityEntry in ChangeTracker.Entries<IOwnable>())
         {
             if (entityEntry.State == EntityState.Added || entityEntry.State == EntityState.Modified)

@@ -22,7 +22,7 @@ namespace QUinoCloud.Controllers
                 .FirstOrDefaultAsync(o => o.SerialNr == tagSerial);
 
             if (tagInfo == null) return TagNotFound();
-
+            context.CurrentUserID = tagInfo.OwnerId;
             var mac = Request.Headers["X-Ident"].ToString();
             mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
             if (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12)
