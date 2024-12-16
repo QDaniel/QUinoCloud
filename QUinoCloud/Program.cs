@@ -76,21 +76,15 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
         await userman.AddToRoleAsync(user, "Admin");
     }
 
-    var publUser = context.Users.FirstOrDefault(o => o.LockoutEnabled && o.PasswordHash == null);
+    var publUser = context.Users.FirstOrDefault(o => o.UserName == "PUBLIC");
     if (publUser != null)
     {
-        publUser = new IdentityUser();
-        publUser.LockoutEnabled = true;
-        publUser.UserName = publUser.NormalizedUserName =  "PUBLIC";
-        publUser.Email = "noreply@example.org";
-        publUser.NormalizedEmail = publUser.Email.ToUpper();
-        publUser.EmailConfirmed = false;
-        publUser.LockoutEnd = DateTimeOffset.UtcNow.AddYears(500);
-        publUser.TwoFactorEnabled = true;
-        context.Users.Add(publUser);
-        await context.SaveChangesAsync();
+        var pwd = QUinoCloud.Utils.Password.CreatePassword(10);
+        await File.WriteAllTextAsync("AppData/publicpwd.txt", pwd);
+        var user = new IdentityUser() { UserName = "PUBLIC", EmailConfirmed = true, Email = "no-reply@example.org" };
+        var ret = await userman.CreateAsync(user, pwd);
     }
-    AppDbContext.PublicUserID = publUser?.Id; 
+    AppDbContext.PublicUserID = publUser?.Id;
 }
 
 app.Run();
