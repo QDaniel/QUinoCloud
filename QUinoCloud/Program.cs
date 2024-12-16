@@ -77,7 +77,7 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
     }
 
     var publUser = context.Users.FirstOrDefault(o => o.UserName == "PUBLIC");
-    if (publUser != null)
+    if (publUser == null)
     {
         var pwd = QUinoCloud.Utils.Password.CreatePassword(10);
         await File.WriteAllTextAsync("AppData/publicpwd.txt", pwd);
