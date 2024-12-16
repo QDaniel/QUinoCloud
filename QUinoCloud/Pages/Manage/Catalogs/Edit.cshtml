@@ -12,13 +12,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Entity.Id" />
             <div class="form-group">
-                
+
                 <label asp-for="Entity.Title" class="control-label"></label>
                 <input asp-for="Entity.Title" class="form-control" />
                 <span asp-validation-for="Entity.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                
+
                 <label asp-for="Entity.Image" class="control-label"></label>
                 <input asp-for="Entity.Image" class="form-control" />
                 <span asp-validation-for="Entity.Image" class="text-danger"></span>
@@ -27,6 +27,67 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        @if (Model.Entity?.Id > 0)
+        {
+            <form method="post" asp-page-handler="AddMedia">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.Image)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.Album)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.TrackNr)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.Duration)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Entity.Medias[0].Media.Url)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Entity?.Medias != null)
+                            foreach (var item in Model.Entity.Medias)
+                            {
+                                <tr>
+                                    <td>
+                                        <img class="img-thumbnail img-thumb-64" src="@item.Media.GetImageUri(HttpContext)" title="@item.Media.Image" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Media.Album)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Media.TrackNr)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Media.Title)
+                                    </td>
+
+                                    <td>
+                                        <a href="@item.Media.BuildUri(HttpContext)" title="@item.Media.Url"><i class="bi @(item.Media.Url.Contains("://")? "bi-globe":"bi-cloud-arrow-down")"></i></a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Media.Duration)
+                                    </td>
+                                    <td>
+                                        <a asp-page-handler="DelMediaRel" asp-route-id="@item.Id" title="Delete"><i class="bi bi-trash fs-5"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </form>
+        }
+
     </div>
 </div>
 
@@ -35,5 +96,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

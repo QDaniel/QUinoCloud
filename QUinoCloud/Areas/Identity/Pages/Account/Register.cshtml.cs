@@ -123,7 +123,7 @@ namespace QUinoCloud.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User '{0}' with email '{1}' created a new account with password.", user.UserName, user.Email);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

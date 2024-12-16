@@ -108,7 +108,7 @@ namespace QUinoCloud.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("User '{0}' logged in.", user.UserName);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -117,7 +117,7 @@ namespace QUinoCloud.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("User account '{0}' locked out.", user.UserName);
                     return RedirectToPage("./Lockout");
                 }
                 else
