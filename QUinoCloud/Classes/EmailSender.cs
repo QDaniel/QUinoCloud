@@ -24,7 +24,13 @@ namespace QUinoCloud.Classes
                 client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(settings.Value.AuthUser, settings.Value.AuthPwd);
             }
-            return client.SendMailAsync(settings.Value.Sender ?? string.Empty, email, subject, htmlMessage);
+
+            var msg = new MailMessage(settings.Value.Sender ?? "no-reply@example.org",
+                email,subject,htmlMessage)
+            {
+                IsBodyHtml = true
+            };
+            return client.SendMailAsync(msg);
         }
     }
     public class EmailSettings
