@@ -1,0 +1,44 @@
+﻿@page
+@model EditModel
+
+@{
+    ViewData["Title"] = "Command - " + (Model.Entity?.Id > 0 ? "Edit" : "Add");
+}
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Entity.Id" />
+            <div class="form-group">
+                <label asp-for="Entity.Image" class="control-label"></label>
+                <input asp-for="Entity.Image" class="form-control" />
+                <span asp-validation-for="Entity.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Entity.Title" class="control-label"></label>
+                <input asp-for="Entity.Title" class="form-control" />
+                <span asp-validation-for="Entity.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Entity.Command" class="control-label"></label>
+                <input asp-for="Entity.Command" class="form-control" />
+                <span asp-validation-for="Entity.Command" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
