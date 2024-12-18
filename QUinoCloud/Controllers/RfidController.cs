@@ -49,25 +49,19 @@ namespace QUinoCloud.Controllers
             {
                 list.Add("#CMD:" + (char)Convert.ToInt32(tagInfo.Command!.Command));
             }
-
-
-            if (mode == Data.RfidTagMode.Media)
+            if (mode == Data.RfidTagMode.Media || (mode == Data.RfidTagMode.Catalog && tagInfo.Catalog?.Medias != null))
             {
-                incomplete = tagInfo.Media!.Duration != null;
-                //list.Add(string.Format("#EXTINF:{0},{1}", tagInfo.Media!.Duration?.TotalSeconds, tagInfo.Media.DisplayTitle()));
-                list.Add(tagInfo.Media.BuildUri(HttpContext).ToString());
-            }
-            if (mode == Data.RfidTagMode.Catalog && tagInfo.Catalog?.Medias != null)
-            {
-                foreach (var item in tagInfo.Catalog.Medias.OrderBy(o => o.Position).Select(o => o.Media))
+                var medias = (mode == Data.RfidTagMode.Catalog) ? tagInfo.Catalog!.Medias!.Select(o => o.Media) : [tagInfo.Media];
+
+                foreach (var item in medias)
                 {
-                    incomplete = incomplete | tagInfo.Media!.Duration != null;
-
-                    //list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
+                    if (item == null) continue;
+                    list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
+                    var file = item.Duration != null ? new FileInfo(item.Url) : null;
+                    if (file?.Length > 0) list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tagInfo.SerialNr, file.Name, file.Length));
                     list.Add(item!.BuildUri(HttpContext).ToString());
                 }
             }
-            list.Insert(1, incomplete ? "#INCOMPLETE" : "#OK");
             return Content(string.Join("\n", list), "audio/x-mpegurl", Encoding.ASCII);
         }
 
