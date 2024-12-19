@@ -56,7 +56,7 @@ namespace QUinoCloud.Controllers
                 foreach (var item in medias)
                 {
                     if (item == null) continue;
-                    list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
+                    list.Add(string.Format("#EXTINF:{0:N0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
                     var path = Path.Combine(context.MyMediaDir(HttpContext), item.Url);
                     var file = item.Duration != null ? new FileInfo(path) : null;
                     if (file?.Length > 0)
