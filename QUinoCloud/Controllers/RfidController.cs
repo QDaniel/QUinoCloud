@@ -57,8 +57,14 @@ namespace QUinoCloud.Controllers
                 {
                     if (item == null) continue;
                     list.Add(string.Format("#EXTINF:{0},{1}", item.Duration?.TotalSeconds, item.DisplayTitle()));
-                    var file = item.Duration != null ? new FileInfo(item.Url) : null;
-                    if (file?.Length > 0) list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tagInfo.SerialNr, file.Name, file.Length));
+                    var path = Path.Combine(context.MyMediaDir(HttpContext), item.Url);
+                    var file = item.Duration != null ? new FileInfo(path) : null;
+                    if (file?.Length > 0)
+                    {
+                        var bName = item.DisplayTitle();
+                        if (string.IsNullOrEmpty(bName)) bName = Path.GetFileNameWithoutExtension(item.Url);
+                        list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tagInfo.SerialNr, bName + Path.GetExtension(item.Url), file.Length));
+                    }
                     list.Add(item!.BuildUri(HttpContext).ToString());
                 }
             }

@@ -252,5 +252,4 @@ namespace QUinoCloud.Utils
             await cryptoStream.CopyToAsync(destination).ConfigureAwait(false);
         }
     }
-
 }
