@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QUinoCloud.Data;
 using System.Net;
 using System.Text;
 
@@ -21,13 +22,31 @@ namespace QUinoCloud.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(o => o.SerialNr == tagSerial);
 
-            if (tagInfo == null) return TagNotFound();
-            context.CurrentUserID = tagInfo.OwnerId;
             var mac = Request.Headers["X-Ident"].ToString();
             mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
+            var uino = (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12) ? await context.Devices.FirstOrDefaultAsync(o => o.MAC == mac) : null;
+
+            if (tagInfo?.GetCmd() == null)
+            {
+                if (string.IsNullOrWhiteSpace(tagInfo?.Title))
+                {
+                    if (uino != null)
+                    {
+                        if (tagInfo == null)
+                        {
+                            tagInfo = new RfidTag() { SerialNr = tagSerial };
+                            context.RfidCards.Add(tagInfo);
+                        }
+                        tagInfo.OwnerId = uino.OwnerId;
+                        await context.SaveChangesAsync();
+                    }
+                }
+                return TagNotFound();
+            }
+
+            context.CurrentUserID = tagInfo.OwnerId;
             if (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12)
             {
-                var uino = await context.Devices.FirstOrDefaultAsync(o => o.MAC == mac);
                 if (uino == null)
                 {
                     uino = new UinoDevice() { MAC = mac, OwnerId = tagInfo.OwnerId };
@@ -122,7 +141,7 @@ namespace QUinoCloud.Controllers
 
         private IActionResult TagNotFound()
         {
-            HttpContext.Response.Headers.ETag = string.Format("\"{0}\"",Utils.Crypto.GetMD5(Utils.Password.CreatePassword(10)));
+            HttpContext.Response.Headers.ETag = string.Format("\"{0}\"", Utils.Crypto.GetMD5(Utils.Password.CreatePassword(10)));
             var list = new List<string>();
             list.Add("#TAGNOTFOUND");
             list.Add("#OK");
