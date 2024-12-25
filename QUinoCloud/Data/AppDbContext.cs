@@ -76,7 +76,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
 
     public string MyMediaDir(HttpContext ctx = null, bool createit = true)
     {
-        if (ctx != null) CurrentUserID = ctx.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        Init(ctx);
         if (string.IsNullOrWhiteSpace(CurrentUserID)) throw new InvalidOperationException("not logged in");
         var dir = Path.Combine("AppData", "Media", CurrentUserID);
         if (createit) Directory.CreateDirectory(dir);
@@ -85,7 +85,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
 
     internal void Init(HttpContext ctx)
     {
-        if (ctx != null)
+        if (ctx != null && string.IsNullOrWhiteSpace(CurrentUserID))
             CurrentUserID = ctx.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 }
