@@ -41,9 +41,9 @@ namespace QUinoCloud.Pages.Manage.Tags
             entity.SerialNr = Entity.SerialNr;
             entity.Image = Entity.Image;
             entity.Title = Entity.Title;
-            entity.Media = await context.MyMedias(HttpContext).FirstOrDefaultAsync(m => m.Id == Entity.MediaId);
-            entity.Catalog = await context.MyMediaCatalogs(HttpContext).FirstOrDefaultAsync(m => m.Id == Entity.CatalogId);
-            entity.Command = await context.MyCommands(HttpContext).FirstOrDefaultAsync(m => m.Id == Entity.CommandId);
+            entity.Media = await context.MyMedias(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.MediaId);
+            entity.Catalog = await context.MyMediaCatalogs(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CatalogId);
+            entity.Command = await context.MyCommands(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CommandId);
 
             entity.SetOwner(HttpContext);
             if (entity.Id == 0) context.Add(entity);
