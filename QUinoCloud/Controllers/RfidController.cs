@@ -122,6 +122,7 @@ namespace QUinoCloud.Controllers
 
         private IActionResult TagNotFound()
         {
+            HttpContext.Response.Headers.ETag = string.Format("\"{0}\"",Utils.Crypto.GetMD5(Utils.Password.CreatePassword(10)));
             var list = new List<string>();
             list.Add("#TAGNOTFOUND");
             list.Add("#OK");
