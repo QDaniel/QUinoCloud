@@ -85,7 +85,7 @@ namespace QUinoCloud.Controllers
                         if (string.IsNullOrEmpty(bName)) bName = Path.GetFileNameWithoutExtension(item.Url);
                         bName += Path.GetExtension(item.Url);
                         bName = Utils.Files.SanitizeFilename(bName);
-                        list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tDir, bName, file.Length));
+                        list.Add(string.Format("#DL-FILE:/{0};{1};{2}", tDir, bName, file.Length));
                     }
                     list.Add(item!.BuildUri(HttpContext).ToString());
                 }
