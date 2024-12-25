@@ -61,9 +61,12 @@ namespace QUinoCloud.Controllers
                     var file = item.Duration != null ? new FileInfo(path) : null;
                     if (file?.Length > 0)
                     {
+                        var tDir = Utils.Files.SanitizeFilename(string.IsNullOrWhiteSpace(item.Album) ? tagInfo.SerialNr : item.Album);
                         var bName = item.DisplayTitle();
                         if (string.IsNullOrEmpty(bName)) bName = Path.GetFileNameWithoutExtension(item.Url);
-                        list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tagInfo.SerialNr, bName + Path.GetExtension(item.Url), file.Length));
+                        bName += Path.GetExtension(item.Url);
+                        bName = Utils.Files.SanitizeFilename(bName);
+                        list.Add(string.Format("#DL-FILE:/{0}/;{1};{2}", tDir, bName, file.Length));
                     }
                     list.Add(item!.BuildUri(HttpContext).ToString());
                 }
