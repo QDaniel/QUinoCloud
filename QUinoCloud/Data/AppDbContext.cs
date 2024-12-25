@@ -118,7 +118,7 @@ public static class DbExtensions
     public static Uri GetImageUri(this IImageable entry, HttpContext ctx)
     {
         Uri uri = null;
-        if (!string.IsNullOrWhiteSpace(entry.Image))
+        if (!string.IsNullOrWhiteSpace(entry?.Image))
         {
             Uri.TryCreate(ctx.Request.GetUri(), entry.Image.Contains("://") ? entry.Image : $"/dl/media/{entry.OwnerId}/{entry.Image}", out uri);
         }
