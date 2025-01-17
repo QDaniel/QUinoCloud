@@ -59,6 +59,7 @@ namespace QUinoCloud.Pages.Manage.Medias
             entity.TrackNr = (int)meta.Tag.Track;
             entity.Title = meta.Tag.Title;
             if (!string.IsNullOrWhiteSpace(meta.Tag.FirstAlbumArtist)) entity.Title = meta.Tag.FirstAlbumArtist + " - " + entity.Title;
+            if (string.IsNullOrWhiteSpace(entity.Title)) entity.Title = Path.GetFileNameWithoutExtension(Files.FileName);
             entity.Album = meta.Tag.Album;
             entity.Duration = meta.Properties.Duration;
             entity.Url = Path.GetFileName(pathData);
