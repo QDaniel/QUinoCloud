@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using QUinoCloud.Classes;
 using QUinoCloud.Data;
 
 namespace QUinoCloud.Pages.Manage.Catalogs
@@ -49,6 +48,7 @@ namespace QUinoCloud.Pages.Manage.Catalogs
             entity.SetOwner(HttpContext);
             if (entity.Id == 0) context.Add(entity);
 
+            await RenewEditStampAsync(entity);
             await context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
@@ -79,6 +79,8 @@ namespace QUinoCloud.Pages.Manage.Catalogs
                 {
                     item.Position = i++;
                 }
+
+                await RenewEditStampAsync(entity);
                 await context.SaveChangesAsync();
             }
             return RedirectToPage("./Edit", new { id });
@@ -92,9 +94,19 @@ namespace QUinoCloud.Pages.Manage.Catalogs
             if (entity == null) return NotFound();
 
             context.MediaInfoRels.Remove(rel);
+            await RenewEditStampAsync(entity);
             await context.SaveChangesAsync();
 
             return RedirectToPage("./Edit", new { id = entity.Id });
+        }
+
+        private async Task RenewEditStampAsync(MediaCatalogInfo ci)
+        {
+            var tags = await context.MyCards(HttpContext).Where(o => o.CatalogId == ci.Id).ToListAsync();
+            foreach (var item in tags)
+            {
+                item.RenewEditStamp();
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace QUinoCloud.Controllers
             tagSerial = tagSerial.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
             var tagInfo = await context.RfidCards
                 .Include(o => o.Catalog)
+                .Include(o => o.Catalog.Medias)
                 .Include(o => o.Media)
                 .Include(o => o.Command)
                 .AsNoTracking()
