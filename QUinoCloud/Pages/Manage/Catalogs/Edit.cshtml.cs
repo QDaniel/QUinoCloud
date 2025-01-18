@@ -58,14 +58,14 @@ namespace QUinoCloud.Pages.Manage.Catalogs
             context.Init(HttpContext);
             var entity = id != 0 ? await context.MyMediaCatalogs(HttpContext).Include(o => o.Medias).FirstOrDefaultAsync(m => m.Id == id) : null;
 
-            if (entity == null) return NotFound();
+            if (entity?.Medias == null) return NotFound();
 
             var medias = context.MyMedias(HttpContext, true);
             if (AddMediaId <= 0) ModelState.AddModelError("AddMediaId", "Invalid value");
             else if ((await medias.FirstOrDefaultAsync(o => o.Id == AddMediaId)) is not MediaInfo mi) ModelState.AddModelError("AddMediaId", "No Permission for this Media");
             else
             {
-                var mir = entity.Medias!.FirstOrDefault(o => o.MediaId == mi.Id) ?? new();
+                var mir = entity.Medias.FirstOrDefault(o => o.MediaId == mi.Id) ?? new();
                 mir.MediaId = mi.Id;
                 mir.CatalogId = entity.Id;
                 mir.Position = int.MaxValue;

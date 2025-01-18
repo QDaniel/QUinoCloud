@@ -33,7 +33,7 @@
 {
     <div class="row pt-3">
         <div class="col-12">
-            <form method="post" asp-page-handler="AddMedia" asp-route-id=@Model.Entity.Id>
+            <form method="post" asp-page-handler="AddMedia" asp-route-id=@Model.Entity!.Id>
                 <div class="form-group">
                     <select asp-for="AddMediaId" class="form-control" asp-items="ViewBag.MediaId"></select>
                     <span asp-validation-for="AddMediaId" class="text-danger"></span>
