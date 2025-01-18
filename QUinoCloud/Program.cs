@@ -18,6 +18,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(EmailSettings.Section));
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+});
 
 //    
 //    .AddEntityFrameworkStores<AppDbContext>();
