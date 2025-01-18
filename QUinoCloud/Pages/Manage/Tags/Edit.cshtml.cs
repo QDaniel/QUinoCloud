@@ -36,7 +36,7 @@ namespace QUinoCloud.Pages.Manage.Tags
                 return Page();
             }
 
-            var entity = Entity.Id != 0 ? await context.MyCards(HttpContext).FirstOrDefaultAsync(m => m.Id == Entity.Id) : new();
+            var entity = Entity!.Id != 0 ? await context.MyCards(HttpContext).FirstOrDefaultAsync(m => m.Id == Entity.Id) : new();
             if (entity == null) return NotFound();
 
             entity.SerialNr = Entity.SerialNr;

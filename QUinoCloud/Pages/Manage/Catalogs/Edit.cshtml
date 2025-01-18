@@ -27,9 +27,18 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        @if (Model.Entity?.Id > 0)
-        {
-            <form method="post" asp-page-handler="AddMedia">
+    </div>
+</div>
+@if (Model.Entity?.Id > 0)
+{
+    <div class="row pt-3">
+        <div class="col-12">
+            <form method="post" asp-page-handler="AddMedia" asp-route-id=@Model.Entity.Id>
+                <div class="form-group">
+                    <select asp-for="AddMediaId" class="form-control" asp-items="ViewBag.MediaId"></select>
+                    <span asp-validation-for="AddMediaId" class="text-danger"></span>
+                    <input type="submit" value="Add" class="form-control btn btn-primary" />
+                </div> <br />
                 <table class="table">
                     <thead>
                         <tr>
@@ -56,7 +65,7 @@
                     </thead>
                     <tbody>
                         @if (Model.Entity?.Medias != null)
-                            foreach (var item in Model.Entity.Medias)
+                            foreach (var item in Model.Entity.Medias.OrderBy(m => m.Position))
                             {
                                 <tr>
                                     <td>
@@ -71,12 +80,11 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Media.Title)
                                     </td>
-
-                                    <td>
-                                        <a href="@item.Media.BuildUri(HttpContext)" title="@item.Media.Url"><i class="bi @(item.Media.Url.Contains("://")? "bi-globe":"bi-cloud-arrow-down")"></i></a>
-                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Media.Duration)
+                                    </td>
+                                    <td>
+                                        <a href="@item.Media.BuildUri(HttpContext)" title="@item.Media.Url"><i class="bi @(item.Media.Url.Contains("://")? "bi-globe":"bi-cloud-arrow-down")"></i></a>
                                     </td>
                                     <td>
                                         <a asp-page-handler="DelMediaRel" asp-route-id="@item.Id" title="Delete"><i class="bi bi-trash fs-5"></i></a>
@@ -86,10 +94,11 @@
                     </tbody>
                 </table>
             </form>
-        }
-
+        </div>
     </div>
-</div>
+}
+
+
 
 <div>
     <a asp-page="./Index">Back to List</a>

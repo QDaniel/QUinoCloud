@@ -63,7 +63,6 @@ namespace QUinoCloud.Controllers
 
             var mode = tagInfo.Mode;
             var list = new List<string>();
-            bool incomplete = false;
             if (mode == Data.RfidTagMode.Cmd)
             {
                 list.Add("#CMD:" + (char)Convert.ToInt32(tagInfo.Command!.Command));
