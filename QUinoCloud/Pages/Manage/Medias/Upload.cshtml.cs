@@ -64,14 +64,16 @@ namespace QUinoCloud.Pages.Manage.Medias
             entity.Duration = meta.Properties.Duration;
             entity.Url = Path.GetFileName(pathData);
             entity.FileHash = flHash;
-            var pic = meta.Tag.Pictures.FirstOrDefault();
+            var pic = meta.Tag.Pictures.Where(p => p.Type != TagLib.PictureType.Other && p.Type != TagLib.PictureType.NotAPicture).OrderBy(p => p.Type).FirstOrDefault();
             if (pic != null)
             {
                 var picdata = pic.Data.ToArray();
                 var hash = Utils.Crypto.BuildHashBytes(Utils.Crypto.AlgoSHA1, picdata);
                 var hash32 = Base32.ToBase32String(hash).ToLower();
-
-                var pathImg = Path.Combine(dir, hash32 + Utils.Mimetype.GetExtensionFromMimeType(pic.MimeType).ToLowerInvariant());
+                var mime = pic.MimeType;
+                if (!(mime?.StartsWith("image/") ?? false)) mime = Utils.Mimetype.DetectMimeType(picdata);
+                if (!(mime?.StartsWith("image/") ?? false)) mime = Utils.Mimetype.JPEG;
+                var pathImg = Path.Combine(dir, hash32 + (Utils.Mimetype.GetExtensionFromMimeType(mime)?.ToLowerInvariant() ?? ".jpg"));
                 if (!System.IO.File.Exists(pathImg))
                 {
                     using var strm = System.IO.File.OpenWrite(pathImg);
