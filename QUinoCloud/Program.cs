@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 //    .AddEntityFrameworkStores<AppDbContext>();
 //builder.Services.AddIdentityCore<AppDbContext>();
 // Add services to the container.
+builder.Services.AddResponseCaching();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<MediaDownloader>();
 builder.Services.AddAuthorization();
@@ -56,6 +58,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseForwardedHeaders();
+app.UseResponseCaching();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

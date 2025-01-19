@@ -8,6 +8,7 @@ namespace QUinoCloud.Controllers
     public class DownloadController(AppDbContext context) : Controller
     {
         [AllowAnonymous]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 36000)]
         [Route("media/{user}/{file}")]
         public async Task<IActionResult> DlFileAsync(string user, string file)
         {
