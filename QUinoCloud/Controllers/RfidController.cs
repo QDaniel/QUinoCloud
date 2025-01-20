@@ -27,7 +27,9 @@ namespace QUinoCloud.Controllers
             mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
             var uino = (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12) ? await context.Devices.FirstOrDefaultAsync(o => o.MAC == mac) : null;
 
-            var tagInfo = tagInfos.FirstOrDefault(o => o.OwnerId == uino?.OwnerId) ?? tagInfos.FirstOrDefault();
+            var tagInfo = tagInfos.FirstOrDefault(o => o.OwnerId == uino?.OwnerId) ??
+                tagInfos.FirstOrDefault(o => o.OwnerId == AppDbContext.PublicUserID) ??
+                tagInfos.FirstOrDefault();
 
             if (tagInfo?.GetCmd() == null)
             {
