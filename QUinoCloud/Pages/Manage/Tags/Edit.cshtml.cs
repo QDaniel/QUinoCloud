@@ -44,9 +44,9 @@ namespace QUinoCloud.Pages.Manage.Tags
             entity.SerialNr = Entity.SerialNr;
             entity.Image = Entity.Image;
             entity.Title = Entity.Title;
-            entity.Media = (Mode == "mode_Media") ? (await context.MyMedias(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.MediaId)) ?? null;
-            entity.Catalog = (Mode == "mode_Catalog") ? (await context.MyMediaCatalogs(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CatalogId)) ?? null;
-            entity.Command = (Mode == "mode_Cmd") ? (await context.MyCommands(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CommandId)) ?? null;
+            entity.Media = (Mode == "mode_Media") ? (await context.MyMedias(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.MediaId)) : null;
+            entity.Catalog = (Mode == "mode_Catalog") ? (await context.MyMediaCatalogs(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CatalogId)) : null;
+            entity.Command = (Mode == "mode_Cmd") ? (await context.MyCommands(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CommandId)) : null;
 
             entity.SetOwner(HttpContext);
             if (entity.Id == 0) context.Add(entity);
