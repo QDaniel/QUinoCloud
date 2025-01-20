@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QUinoCloud.Data;
-using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -16,17 +15,19 @@ namespace QUinoCloud.Controllers
         public async Task<IActionResult> TagInfoAsync(string tagSerial)
         {
             tagSerial = tagSerial.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
-            var tagInfo = await context.RfidCards
+            var tagInfos = await context.RfidCards
                 .Include(o => o.Catalog)
                 .Include(o => o.Catalog.Medias)
                 .Include(o => o.Media)
                 .Include(o => o.Command)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(o => o.SerialNr == tagSerial);
+                .Where(o => o.SerialNr == tagSerial).ToListAsync();
 
             var mac = Request.Headers["X-Ident"].ToString();
             mac = mac.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
             var uino = (!string.IsNullOrWhiteSpace(mac) && mac.Length == 12) ? await context.Devices.FirstOrDefaultAsync(o => o.MAC == mac) : null;
+
+            var tagInfo = tagInfos.FirstOrDefault(o => o.OwnerId == uino?.OwnerId) ?? tagInfos.FirstOrDefault();
 
             if (tagInfo?.GetCmd() == null)
             {

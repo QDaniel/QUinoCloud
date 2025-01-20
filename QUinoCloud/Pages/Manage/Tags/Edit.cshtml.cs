@@ -32,7 +32,6 @@ namespace QUinoCloud.Pages.Manage.Tags
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Entity?.SerialNr?.StartsWith("9000000000") ?? false) ModelState.AddModelError("Entity.SerialNr", "Invalid Serial");
             if (!ModelState.IsValid)
             {
                 return Page();
