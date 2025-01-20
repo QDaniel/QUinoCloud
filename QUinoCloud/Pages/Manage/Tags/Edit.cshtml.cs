@@ -64,6 +64,7 @@ namespace QUinoCloud.Pages.Manage.Tags
             }
 
             entity.SetOwner(HttpContext);
+            entity.RenewEditStamp();
             if (entity.Id == 0) context.Add(entity);
 
             await context.SaveChangesAsync();
