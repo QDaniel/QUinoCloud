@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QUinoCloud.Data;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -70,7 +71,15 @@ namespace QUinoCloud.Controllers
             }
             if (mode == Data.RfidTagMode.Media || mode == Data.RfidTagMode.Catalog)
             {
-                var medias = (mode == Data.RfidTagMode.Catalog) ? tagInfo.Catalog!.Medias!.Select(o => o.Media) : [tagInfo.Media];
+                IEnumerable<MediaInfo?> medias;
+                if (mode == Data.RfidTagMode.Catalog)
+                {
+                    medias = await context.MyMedias(HttpContext, true).Where(o => tagInfo.Catalog!.Medias!.Select(o => o.MediaId).Contains(o.Id)).ToListAsync();
+                }
+                else
+                {
+                    medias = [tagInfo.Media];
+                }
 
                 foreach (var item in medias)
                 {
