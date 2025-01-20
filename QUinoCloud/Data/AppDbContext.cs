@@ -82,6 +82,12 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
         if (createit) Directory.CreateDirectory(dir);
         return dir;
     }
+    public string MyMediaDir(MediaInfo mi)
+    {
+        if (string.IsNullOrWhiteSpace(mi.OwnerId)) throw new InvalidOperationException("Invalid Owner");
+        var dir = Path.Combine("AppData", "Media", mi.OwnerId);
+        return dir;
+    }
 
     internal void Init(HttpContext ctx)
     {

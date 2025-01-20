@@ -83,14 +83,12 @@ namespace QUinoCloud.Controllers
                 {
                     medias = [tagInfo.Media];
                 }
-
+                list.Add("#EXTM3U");
                 foreach (var item in medias)
                 {
                     if (item == null) continue;
                     list.Add(string.Format("#EXTINF:{0},{1}", (int?)item.Duration?.TotalSeconds, item.DisplayTitle()));
-                    var path = Path.Combine(context.MyMediaDir(HttpContext), item.Url);
-
-                    var file = item.Duration != null ? new FileInfo(path) : null;
+                    var file = item.Duration != null ? new FileInfo(Path.Combine(context.MyMediaDir(item), item.Url)) : null;
                     if (file?.Exists == true && file?.Length > 0)
                     {
                         var tDir = Utils.Files.SanitizeFilename(string.IsNullOrWhiteSpace(item.Album) ? tagInfo.SerialNr : item.Album);
