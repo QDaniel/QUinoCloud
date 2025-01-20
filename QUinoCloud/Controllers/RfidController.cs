@@ -68,7 +68,7 @@ namespace QUinoCloud.Controllers
             {
                 list.Add("#CMD:" + (char)Convert.ToInt32(tagInfo.Command!.Command));
             }
-            if (mode == Data.RfidTagMode.Media || (mode == Data.RfidTagMode.Catalog && tagInfo.Catalog?.Medias != null))
+            if (mode == Data.RfidTagMode.Media || mode == Data.RfidTagMode.Catalog)
             {
                 var medias = (mode == Data.RfidTagMode.Catalog) ? tagInfo.Catalog!.Medias!.Select(o => o.Media) : [tagInfo.Media];
 

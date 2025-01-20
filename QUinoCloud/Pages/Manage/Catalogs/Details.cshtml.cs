@@ -21,6 +21,7 @@ namespace QUinoCloud.Pages.Manage.Catalogs
             if (id < 1) return NotFound();
 
             var entity = await _context.MyMediaCatalogs(HttpContext)
+                .Include(o => o.Medias)
                 .Include(o => o.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
