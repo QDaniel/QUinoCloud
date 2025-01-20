@@ -60,11 +60,6 @@ namespace QUinoCloud.Controllers
                 uino.LastSeen = DateTimeOffset.Now;
                 await context.SaveChangesAsync();
             }
-            var reqetag = "\"" + tagInfo.EditStamp + "\"";
-            HttpContext.Response.Headers.ETag = reqetag;
-
-            if (Request.Headers.IfNoneMatch.Contains(reqetag))
-                return StatusCode((int)HttpStatusCode.NotModified);
 
             var mode = tagInfo.Mode;
             var list = new List<string>();
@@ -101,6 +96,14 @@ namespace QUinoCloud.Controllers
                     list.Add(item!.BuildUri(HttpContext).ToString());
                 }
             }
+
+            var cnt = string.Join("\n", list);
+            var etag = Utils.Crypto.GetMD5(string.Format(tagInfo.EditStamp) + cnt);
+            var reqetag = "\"" + etag + "\"";
+            HttpContext.Response.Headers.ETag = reqetag;
+
+            if (Request.Headers.IfNoneMatch.Contains(reqetag))
+                return StatusCode((int)HttpStatusCode.NotModified);
             return Content(string.Join("\n", list), "audio/x-mpegurl", Encoding.ASCII);
         }
 
