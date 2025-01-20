@@ -23,6 +23,7 @@ namespace QUinoCloud.Pages.Manage.Tags
             var entity = await _context.MyCards(HttpContext)
                 .Include(o => o.Owner)
                 .Include(o => o.Catalog)
+                .Include(o => o.Catalog.Medias)
                 .Include(o => o.Command)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
