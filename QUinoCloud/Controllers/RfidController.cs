@@ -86,8 +86,9 @@ namespace QUinoCloud.Controllers
                     if (item == null) continue;
                     list.Add(string.Format("#EXTINF:{0},{1}", (int?)item.Duration?.TotalSeconds, item.DisplayTitle()));
                     var path = Path.Combine(context.MyMediaDir(HttpContext), item.Url);
+
                     var file = item.Duration != null ? new FileInfo(path) : null;
-                    if (file?.Length > 0)
+                    if (file.Exists && file?.Length > 0)
                     {
                         var tDir = Utils.Files.SanitizeFilename(string.IsNullOrWhiteSpace(item.Album) ? tagInfo.SerialNr : item.Album);
                         var bName = item.DisplayTitle();
