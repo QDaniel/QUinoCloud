@@ -88,7 +88,7 @@ namespace QUinoCloud.Controllers
                     var path = Path.Combine(context.MyMediaDir(HttpContext), item.Url);
 
                     var file = item.Duration != null ? new FileInfo(path) : null;
-                    if (file.Exists && file?.Length > 0)
+                    if (file?.Exists == true && file?.Length > 0)
                     {
                         var tDir = Utils.Files.SanitizeFilename(string.IsNullOrWhiteSpace(item.Album) ? tagInfo.SerialNr : item.Album);
                         var bName = item.DisplayTitle();
