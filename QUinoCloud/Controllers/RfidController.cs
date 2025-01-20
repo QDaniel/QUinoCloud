@@ -104,7 +104,7 @@ namespace QUinoCloud.Controllers
 
             if (Request.Headers.IfNoneMatch.Contains(reqetag))
                 return StatusCode((int)HttpStatusCode.NotModified);
-            return Content(string.Join("\n", list), "audio/x-mpegurl", Encoding.ASCII);
+            return Content(cnt, "audio/x-mpegurl", Encoding.ASCII);
         }
 
         [AllowAnonymous]
