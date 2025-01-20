@@ -48,19 +48,19 @@ namespace QUinoCloud.Pages.Manage.Tags
             if (Mode == "mode_Media")
             {
                 entity.Media = await context.MyMedias(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.MediaId);
-                entity.CatalogId = 0;
-                entity.CommandId = 0;
+                entity.CatalogId = null;
+                entity.CommandId = null;
             }
             else if (Mode == "mode_Catalog")
             {
-                entity.MediaId = 0; 
+                entity.MediaId = null; 
                 entity.Catalog = await context.MyMediaCatalogs(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CatalogId);
-                entity.CommandId = 0;
+                entity.CommandId = null;
             }
             else if (Mode == "mode_Cmd")
             {
-                entity.MediaId = 0;
-                entity.CatalogId = 0;
+                entity.MediaId = null;
+                entity.CatalogId = null;
                 entity.Command = await context.MyCommands(HttpContext, true).FirstOrDefaultAsync(m => m.Id == Entity.CommandId);
             }
 
