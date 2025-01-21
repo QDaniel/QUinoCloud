@@ -11,10 +11,15 @@ namespace QUinoCloud.Controllers
     public class RfidController(AppDbContext context) : Controller
     {
         [AllowAnonymous]
+        [Route("info/{tagSerial}.m3u")]
+        [Route("info/{tagSerial}.m3u8")]
         [Route("info/{tagSerial}")]
         public async Task<IActionResult> TagInfoAsync(string tagSerial)
         {
             tagSerial = tagSerial.ToUpperInvariant().Replace(":", "").Replace("-", "").Replace(" ", "").Trim();
+            if (tagSerial.EndsWith(".m3u")) tagSerial = tagSerial.Substring(0, tagSerial.Length - 4);
+            if (tagSerial.EndsWith(".m3u8")) tagSerial = tagSerial.Substring(0, tagSerial.Length - 5);
+
             var tagInfos = await context.RfidCards
                 .Include(o => o.Catalog)
                 .Include(o => o.Catalog.Medias)
